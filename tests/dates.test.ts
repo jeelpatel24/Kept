@@ -20,6 +20,8 @@ const cases: { expr: string; date: string | null; confidence?: "high" | "low" }[
   { expr: "next Thursday", date: "2026-09-03", confidence: "low" },
   { expr: "end of the week", date: "2026-08-28", confidence: "high" },
   { expr: "end of next week", date: "2026-09-04", confidence: "high" },
+  { expr: "end of the next week", date: "2026-09-04", confidence: "high" },
+  { expr: "by the end of next week", date: "2026-09-04", confidence: "high" },
   { expr: "next week", date: "2026-08-31", confidence: "low" },
   { expr: "early next week", date: "2026-08-31", confidence: "low" },
   { expr: "in three days", date: "2026-08-27", confidence: "high" },

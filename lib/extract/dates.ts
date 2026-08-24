@@ -119,12 +119,12 @@ export function resolveRelativeDate(expression: string | null | undefined, recor
 
   // Week-relative
   const startOfThisWeek = addDays(today, -((todayWd + 6) % 7)); // Monday
-  if (/^(end of (the|this) week|end of week|eow|this week)$/.test(s)) {
+  if (/^(end of (the|this) week|end of week|eow|this week|later this week)$/.test(s)) {
     const fri = addDays(startOfThisWeek, 4);
     const target = fri.getTime() < today.getTime() ? today : fri;
     return { date: ymd(target), confidence: s === "this week" ? "low" : "high" };
   }
-  if (/^(end of next week)$/.test(s)) return { date: ymd(addDays(startOfThisWeek, 11)), confidence: "high" };
+  if (/^(end of (the )?next week|next week end|end of the following week)$/.test(s)) return { date: ymd(addDays(startOfThisWeek, 11)), confidence: "high" };
   if (/^(next week|early next week|beginning of next week|start of next week|first thing next week)$/.test(s)) {
     return { date: ymd(addDays(startOfThisWeek, 7)), confidence: "low" };
   }
@@ -139,7 +139,7 @@ export function resolveRelativeDate(expression: string | null | undefined, recor
   // Month-relative
   if (/^(end of (the|this) month|end of month|eom|month end)$/.test(s)) return { date: ymd(lastDayOfMonth(lp.y, lp.m)), confidence: "high" };
   if (/^(next month|early next month|beginning of next month|start of next month)$/.test(s)) return { date: ymd(new Date(Date.UTC(lp.y, lp.m + 1, 1))), confidence: "low" };
-  if (/^(end of next month)$/.test(s)) return { date: ymd(lastDayOfMonth(lp.y, lp.m + 1)), confidence: "high" };
+  if (/^(end of (the )?next month)$/.test(s)) return { date: ymd(lastDayOfMonth(lp.y, lp.m + 1)), confidence: "high" };
   if (/^(mid month|middle of the month|mid-month)$/.test(s)) return { date: ymd(new Date(Date.UTC(lp.y, lp.m, 15))), confidence: "low" };
 
   // Weekday: "thursday", "this thursday", "next thursday", "a week thursday", "thursday week"
