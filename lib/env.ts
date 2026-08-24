@@ -38,7 +38,7 @@ export const env = {
     return opt("GROQ_TRANSCRIBE_MODEL", "whisper-large-v3");
   },
   get GROQ_EXTRACT_MODEL() {
-    return opt("GROQ_EXTRACT_MODEL", "llama-3.3-70b-versatile");
+    return opt("GROQ_EXTRACT_MODEL", "openai/gpt-oss-120b");
   },
   get OPENROUTER_EXTRACT_MODEL() {
     return opt("OPENROUTER_EXTRACT_MODEL", "google/gemini-2.5-flash");
