@@ -1,4 +1,4 @@
-// Zod schema for model extraction output. Model output is never trusted directly (CLAUDE.md §4).
+// Zod schema for model extraction output. Model output is never trusted directly (docs/ENGINEERING.md §4).
 // Implements: TRD-3.3 item schema + speaker inference (PRD-F5) + title/summary (SCHEMA notes.title/summary).
 import { z } from "zod";
 

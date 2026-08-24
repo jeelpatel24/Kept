@@ -1,4 +1,4 @@
-// Content-hash cache (TRD-2.7, CLAUDE.md §5). Service-role only.
+// Content-hash cache (TRD-2.7, docs/ENGINEERING.md §5). Service-role only.
 import "server-only";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import type { LlmTask } from "@/lib/llm/types";

@@ -2,7 +2,13 @@
 
 **Record a real conversation between two people. Every commitment becomes a tracked task — on a shared, correctable note, pushed to Trello and your calendar.**
 
-Built for AI Builders Hackathon 2026 by Jeel Patel. Governed by [`spec.md`](./spec.md) (canonical), expanded by [`docs/PRD.md`](./docs/PRD.md), [`docs/TRD.md`](./docs/TRD.md), [`docs/SCHEMA.md`](./docs/SCHEMA.md), [`docs/UX-BRIEF.md`](./docs/UX-BRIEF.md), built in the order of [`docs/IMPLEMENTATION-PLAN.md`](./docs/IMPLEMENTATION-PLAN.md).
+[![CI](https://github.com/jeelpatel2409/kept/actions/workflows/ci.yml/badge.svg)](https://github.com/jeelpatel2409/kept/actions/workflows/ci.yml)
+![Next.js 15](https://img.shields.io/badge/Next.js-15-black)
+![TypeScript strict](https://img.shields.io/badge/TypeScript-strict-3178c6)
+![Supabase](https://img.shields.io/badge/Supabase-Postgres%20%2B%20RLS-3ecf8e)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow)
+
+Built solo for AI Builders Hackathon 2026 by Jeel Patel. Governed by [`spec.md`](./spec.md) (canonical), expanded by [`docs/PRD.md`](./docs/PRD.md), [`docs/TRD.md`](./docs/TRD.md), [`docs/SCHEMA.md`](./docs/SCHEMA.md), [`docs/UX-BRIEF.md`](./docs/UX-BRIEF.md), built in the order of [`docs/IMPLEMENTATION-PLAN.md`](./docs/IMPLEMENTATION-PLAN.md).
 
 ## The problem
 
@@ -24,6 +30,8 @@ Record → Transcribe → Extract → Confirm → Share → Dispatch
 The differentiator is the **commitment ledger**: not "here is a summary", but "here is what each person owes, by when, and whether it happened" — with **shared truth** (both parties see and can correct the same record) and **provenance** (every card links to the line that created it).
 
 ## Architecture
+
+![Kept architecture](docs/architecture.svg)
 
 ```
 Phone browser (Next.js 15 App Router, TypeScript strict, Tailwind v4)
@@ -78,7 +86,7 @@ Key decisions (see TRD §2): record-then-process rather than streaming; context-
 
 ### 2. Providers
 
-- **Groq** — create an API key at console.groq.com. **Set a spend cap** (CLAUDE.md §5: $20 total budget).
+- **Groq** — create an API key at console.groq.com. **Set a spend cap** (docs/ENGINEERING.md §5: $20 total budget).
 - **OpenRouter** — create an API key, set a credit limit.
 - **Trello** — get an API key at trello.com/power-ups/admin (create a Power-Up, then "API key"). Add your app origin to **Allowed origins** (e.g. `http://localhost:3000`, your Vercel domain).
 - **Resend** (optional, PRD-F13) — API key + a verified sending domain, or use `onboarding@resend.dev` for testing to your own address.
@@ -109,6 +117,12 @@ To record from a phone against a dev server, use an HTTPS tunnel (MediaRecorder 
 ### 5. Deploy (Vercel)
 
 Import the repo, add every variable from `.env.local` to the project, set `APP_URL` to the Vercel URL, and add that URL to Supabase Redirect URLs and Trello Allowed origins. Route Handlers for transcribe/extract declare `maxDuration` (120–180s); on the Hobby plan the effective limit may be lower — the demo path (90s audio) completes in well under 45s.
+
+## Screenshots
+
+| Review & confirm | Note with Trello cards |
+|---|---|
+| _add `docs/screenshots/review.png`_ | _add `docs/screenshots/note.png`_ |
 
 ## Manual E2E checklist
 
@@ -148,6 +162,10 @@ tests/                 vitest unit tests
 docs/                  PRD · TRD · SCHEMA · UX-BRIEF · IMPLEMENTATION-PLAN · E2E-CHECKLIST
 ```
 
+## Engineering standards
+
+See [`docs/ENGINEERING.md`](./docs/ENGINEERING.md): scope discipline, requirement traceability in every commit, TypeScript strict, Zod at every boundary, timeouts and typed failure paths on every external call, content-hash caching, no secrets client-side.
+
 ## License
 
-Private hackathon submission. All rights reserved.
+MIT — see [`LICENSE`](./LICENSE).

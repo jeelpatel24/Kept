@@ -1,4 +1,4 @@
-// Extraction prompt v1. Versioned constant — never inline in a handler (CLAUDE.md §4).
+// Extraction prompt v1. Versioned constant — never inline in a handler (docs/ENGINEERING.md §4).
 // Implements: PRD-F4, F5, F6 · TRD-3.3. Persisted on notes.extraction_version.
 export const EXTRACT_PROMPT_VERSION = "extract.v1";
 

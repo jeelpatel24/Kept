@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="560" viewBox="0 0 960 560" font-family="Inter, system-ui, sans-serif" font-size="14">
+  <defs>
+    <marker id="a" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#5a5a5a"/></marker>
+  </defs>
+  <rect width="960" height="560" fill="#faf9f6"/>
+  <text x="480" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#111">Kept — architecture</text>
+  <text x="480" y="56" text-anchor="middle" fill="#5a5a5a">Record → Transcribe → Extract → Confirm → Share → Dispatch</text>
+
+  <!-- Phone -->
+  <rect x="40" y="90" width="200" height="120" rx="14" fill="#fff" stroke="#d9d6cf"/>
+  <text x="140" y="118" text-anchor="middle" font-weight="700" fill="#111">Phone browser</text>
+  <text x="140" y="140" text-anchor="middle" fill="#5a5a5a">Next.js 15 client</text>
+  <text x="140" y="160" text-anchor="middle" fill="#5a5a5a">MediaRecorder · 30s chunks</text>
+  <text x="140" y="180" text-anchor="middle" fill="#5a5a5a">S1–S8 screens</text>
+
+  <!-- Guest -->
+  <rect x="40" y="240" width="200" height="80" rx="14" fill="#fff" stroke="#d9d6cf"/>
+  <text x="140" y="268" text-anchor="middle" font-weight="700" fill="#111">Other party (guest)</text>
+  <text x="140" y="290" text-anchor="middle" fill="#5a5a5a">signed link · no account</text>
+
+  <!-- App -->
+  <rect x="320" y="90" width="320" height="330" rx="14" fill="#fff" stroke="#1d4ed8" stroke-width="2"/>
+  <text x="480" y="118" text-anchor="middle" font-weight="700" fill="#111">Next.js Route Handlers (Vercel)</text>
+  <text x="480" y="138" text-anchor="middle" fill="#5a5a5a">Zod at every boundary · secrets server-only</text>
+  <g fill="#111">
+    <text x="340" y="170">/api/sessions · /audio · /transcribe · /extract</text>
+    <text x="340" y="192">/api/notes/:id  (draft → confirmed, gated)</text>
+    <text x="340" y="214">/api/notes/:id/share · /api/share/:token</text>
+    <text x="340" y="236">/api/trello/connect · /api/trello/dispatch</text>
+    <text x="340" y="258">/api/notes/:id/calendar.ics · /email</text>
+  </g>
+  <rect x="340" y="280" width="280" height="120" rx="10" fill="#f0eee8"/>
+  <text x="480" y="302" text-anchor="middle" font-weight="700" fill="#111">lib/</text>
+  <text x="480" y="322" text-anchor="middle" fill="#5a5a5a">llm/router — ordered fallback · content-hash cache</text>
+  <text x="480" y="342" text-anchor="middle" fill="#5a5a5a">extract — Zod · provenance · date resolver</text>
+  <text x="480" y="362" text-anchor="middle" fill="#5a5a5a">share/token (HMAC) · trello/crypto (AES-GCM)</text>
+  <text x="480" y="382" text-anchor="middle" fill="#5a5a5a">trello/dispatch · calendar/ics · email</text>
+
+  <!-- Data -->
+  <rect x="720" y="90" width="200" height="100" rx="14" fill="#fff" stroke="#d9d6cf"/>
+  <text x="820" y="118" text-anchor="middle" font-weight="700" fill="#111">Supabase Postgres</text>
+  <text x="820" y="140" text-anchor="middle" fill="#5a5a5a">RLS on every table</text>
+  <text x="820" y="160" text-anchor="middle" fill="#5a5a5a">provenance CHECK ≥ 1</text>
+  <text x="820" y="178" text-anchor="middle" fill="#5a5a5a">llm_cache · llm_calls</text>
+
+  <rect x="720" y="210" width="200" height="70" rx="14" fill="#fff" stroke="#d9d6cf"/>
+  <text x="820" y="238" text-anchor="middle" font-weight="700" fill="#111">Supabase Storage</text>
+  <text x="820" y="260" text-anchor="middle" fill="#5a5a5a">audio — deleted after transcript</text>
+
+  <rect x="720" y="300" width="200" height="120" rx="14" fill="#fff" stroke="#d9d6cf"/>
+  <text x="820" y="326" text-anchor="middle" font-weight="700" fill="#111">External</text>
+  <text x="820" y="348" text-anchor="middle" fill="#5a5a5a">Groq Whisper large-v3</text>
+  <text x="820" y="368" text-anchor="middle" fill="#5a5a5a">Gemini Flash via OpenRouter</text>
+  <text x="820" y="388" text-anchor="middle" fill="#5a5a5a">Trello REST · Resend</text>
+
+  <!-- Arrows -->
+  <line x1="240" y1="150" x2="320" y2="150" stroke="#5a5a5a" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="240" y1="280" x2="320" y2="214" stroke="#5a5a5a" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="640" y1="140" x2="720" y2="140" stroke="#5a5a5a" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="640" y1="245" x2="720" y2="245" stroke="#5a5a5a" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="640" y1="360" x2="720" y2="360" stroke="#5a5a5a" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- Trust strip -->
+  <rect x="40" y="450" width="880" height="80" rx="14" fill="#fff4e0" stroke="#f0b35c"/>
+  <text x="480" y="478" text-anchor="middle" font-weight="700" fill="#b45309">Trust design</text>
+  <text x="480" y="500" text-anchor="middle" fill="#111">Nothing writes without human confirmation · unknown owner / date stays null · every item cites its transcript span</text>
+  <text x="480" y="520" text-anchor="middle" fill="#111">Low-confidence dates are amber and block confirmation until touched · degrade to the raw transcript, never a blank screen</text>
+</svg>

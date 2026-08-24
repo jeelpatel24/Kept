@@ -1,5 +1,5 @@
 // Prompt for the transcription FALLBACK path (Gemini native audio via OpenRouter).
-// Implements: TRD-3.2. Versioned constant per CLAUDE.md §4.
+// Implements: TRD-3.2. Versioned constant per docs/ENGINEERING.md §4.
 export const TRANSCRIBE_PROMPT_VERSION = "transcribe.v1";
 
 export const TRANSCRIBE_FALLBACK_PROMPT = `Transcribe this English audio of a conversation between two people.

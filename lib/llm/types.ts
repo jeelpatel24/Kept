@@ -28,7 +28,7 @@ export interface ExtractPayload {
 }
 
 export interface ExtractResult {
-  /** Raw model text. Validated by the caller against the Zod schema (CLAUDE.md §4). */
+  /** Raw model text. Validated by the caller against the Zod schema (docs/ENGINEERING.md §4). */
   raw: string;
 }
 

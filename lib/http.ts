@@ -1,4 +1,4 @@
-// Every external call has a timeout, a retry, and a typed failure path (CLAUDE.md §3, TRD-4.4).
+// Every external call has a timeout, a retry, and a typed failure path (docs/ENGINEERING.md §3, TRD-4.4).
 
 export type ExternalFailureKind =
   | "timeout"

@@ -5,12 +5,12 @@ node_modules/
 .next/
 out/
 
-# env — never commit (CLAUDE.md §7)
+# env — never commit (docs/ENGINEERING.md §7)
 .env
 .env.*
 !.env.example
 
-# recorded audio — never commit (CLAUDE.md §7)
+# recorded audio — never commit (docs/ENGINEERING.md §7)
 *.webm
 *.wav
 *.mp3
@@ -23,3 +23,7 @@ fixtures/audio/
 *.tsbuildinfo
 next-env.d.ts
 .vercel
+
+# local working notes
+CLAUDE.md
+.claude/

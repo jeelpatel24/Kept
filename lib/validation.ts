@@ -1,4 +1,4 @@
-// Shared Zod schemas for Route Handler boundaries (TRD-5.4, CLAUDE.md §3 "validate at the boundary").
+// Shared Zod schemas for Route Handler boundaries (TRD-5.4, docs/ENGINEERING.md §3 "validate at the boundary").
 import { z } from "zod";
 
 export const uuid = z.string().uuid();
