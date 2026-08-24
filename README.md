@@ -66,8 +66,15 @@ Key decisions (see TRD §2): record-then-process rather than streaming; context-
 ### 1. Supabase
 
 1. Create a project. In **SQL Editor**, run each file in `supabase/migrations/` in order (`0001` → `0006`). See `MIGRATION_LOG.md`.
-2. **Authentication → Providers → Email**: enable, keep "Confirm email" on (magic links). Add `http://localhost:3000/auth/callback` and your Vercel URL `/auth/callback` to **URL Configuration → Redirect URLs**.
-3. **Project Settings → API**: copy the URL, `anon` key and `service_role` key.
+2. **Authentication → Sign In / Providers → Email**: enable, keep "Confirm email" on (magic links). Add `http://localhost:3000/auth/callback` and your Vercel URL `/auth/callback` to **URL Configuration → Redirect URLs**.
+3. **Authentication → Emails → Templates → Magic Link**: replace the link so it carries a `token_hash` (works when the link is opened on a different device/browser than the one that requested it — the default PKCE link does not):
+   ```html
+   <h2>Sign in to Kept</h2>
+   <p><a href="{{ .RedirectTo }}&token_hash={{ .TokenHash }}&type=email">Sign in</a></p>
+   <p>If you didn't request this, ignore it. The link expires in 1 hour.</p>
+   ```
+   Do the same for the **Confirm sign up** template (first-time sign-in uses it) with `&type=email` as well.
+4. **Project Settings → API**: copy the URL, `anon` key and `service_role` key.
 
 ### 2. Providers
 
