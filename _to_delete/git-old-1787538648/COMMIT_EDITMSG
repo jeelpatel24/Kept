@@ -1,0 +1,3 @@
+fix(auth): accept token_hash magic links so sign-in works across devices/browsers
+
+Implements: TRD-5.1

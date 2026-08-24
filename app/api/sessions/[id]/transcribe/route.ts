@@ -4,7 +4,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { runTranscription } from "@/lib/transcribe";
 import { uuid } from "@/lib/validation";
 
-export const maxDuration = 180;
+export const maxDuration = 60;
 
 export async function POST(_req: Request, ctx: { params: Promise<{ id: string }> }) {
   const { id } = await ctx.params;
