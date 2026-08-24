@@ -116,6 +116,7 @@ export async function complete<T extends LlmTask>(
       const kind = e instanceof ExternalCallError ? e.kind : "unknown";
       const message = e instanceof Error ? e.message : String(e);
       failures.push({ provider: provider.name, kind, message });
+      if (env.IS_DEV) console.warn(`[llm] ${task} ${provider.name} ${kind}: ${message.slice(0, 400)}`);
       await logCall({ sessionId, task, provider: provider.name, model: "-", cacheHit: false, inputTokens: null, outputTokens: null, latencyMs: null, status: kind === "rate_limited" ? "rate_limited" : "failed" });
       // 429 → immediately try the next provider (TRD-3.4). Other failures also move on after their own retries.
       continue;
