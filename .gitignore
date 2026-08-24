@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+
+# next
+.next/
+out/
+
+# env — never commit (CLAUDE.md §7)
+.env
+.env.*
+!.env.example
+
+# recorded audio — never commit (CLAUDE.md §7)
+*.webm
+*.wav
+*.mp3
+*.m4a
+*.ogg
+fixtures/audio/
+
+# misc
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+.vercel
