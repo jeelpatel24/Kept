@@ -2,7 +2,7 @@
 
 **Record a real conversation between two people. Every commitment becomes a tracked task — on a shared, correctable note, pushed to Trello and your calendar.**
 
-[![CI](https://github.com/jeelpatel2409/kept/actions/workflows/ci.yml/badge.svg)](https://github.com/jeelpatel2409/kept/actions/workflows/ci.yml)
+[![CI](https://github.com/jeelpatel24/Kept/actions/workflows/ci.yml/badge.svg)](https://github.com/jeelpatel24/Kept/actions/workflows/ci.yml)
 ![Next.js 15](https://img.shields.io/badge/Next.js-15-black)
 ![TypeScript strict](https://img.shields.io/badge/TypeScript-strict-3178c6)
 ![Supabase](https://img.shields.io/badge/Supabase-Postgres%20%2B%20RLS-3ecf8e)
