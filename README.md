@@ -178,6 +178,10 @@ Full walkthrough and failure drills: [`docs/E2E-CHECKLIST.md`](docs/E2E-CHECKLIS
 
 ---
 
+## 🏁 For judges
+
+**[3-minute evaluation path →](docs/JUDGES.md)** — a live shared note you can open with one click (no account, no mic), the three things to look for, and where the interesting code lives.
+
 ## 📸 Screenshots
 
 | Review & confirm — the amber moment | The note — cards on the board |
