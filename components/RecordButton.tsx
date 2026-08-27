@@ -69,12 +69,14 @@ export function RecordButton() {
         onClick={onTap}
         disabled={busy}
         aria-label="Start recording"
-        className="flex h-44 w-44 items-center justify-center rounded-full bg-rec text-white shadow-lg transition-transform active:scale-95 disabled:opacity-60"
+        className="flex h-48 w-48 select-none flex-col items-center justify-center gap-2 rounded-full border border-accent-edge bg-gradient-to-b from-[#3b74e8] to-accent text-white shadow-[0_8px_0_var(--color-accent-edge),0_14px_28px_rgba(27,36,48,0.28)] transition-all duration-75 active:translate-y-[8px] active:shadow-none disabled:opacity-70"
       >
-        <span className="flex flex-col items-center">
-          <span className="block h-12 w-12 rounded-full border-4 border-white" aria-hidden />
-          <span className="mt-2 text-xl font-bold">{busy ? "Starting…" : "Record"}</span>
-        </span>
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <rect x="9" y="3" width="6" height="11" rx="3" fill="white" />
+          <path d="M5.5 11a6.5 6.5 0 0 0 13 0" stroke="white" strokeWidth="2" strokeLinecap="round" />
+          <path d="M12 17.5V21" stroke="white" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+        <span className="font-display text-xl font-extrabold tracking-wide">{busy ? "STARTING…" : "RECORD"}</span>
       </button>
       {error ? (
         <p role="alert" className="mt-4 rounded-xl bg-danger-bg p-3 text-danger">

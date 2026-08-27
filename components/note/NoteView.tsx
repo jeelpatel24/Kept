@@ -152,10 +152,13 @@ export function NoteView({ initial, trelloReady }: { initial: Graph; trelloReady
 
   return (
     <main className="mx-auto max-w-md px-5 pb-16 pt-6">
-      <Link href="/" className="text-ink-muted underline-offset-4 hover:underline">
-        ← Home
-      </Link>
-      <h1 className="mt-2 text-2xl font-bold">{graph.note.title}</h1>
+      <div className="flex items-center justify-between">
+        <Link href="/" className="text-ink-muted underline-offset-4 hover:underline">
+          ← Home
+        </Link>
+        <span className="chip chip-ok !min-h-0 !py-1 text-sm">✓ Confirmed</span>
+      </div>
+      <h1 className="mt-2 text-3xl font-extrabold">{graph.note.title}</h1>
       <p className="mt-1 text-ink-muted">
         {formatRecordedAt(graph.session.recorded_at, graph.session.timezone)} · {graph.participants.map((p) => p.label).join(" & ")}
       </p>
@@ -197,15 +200,15 @@ export function NoteView({ initial, trelloReady }: { initial: Graph; trelloReady
         </section>
       ) : null}
 
-      <div className="mt-5 grid grid-cols-3 gap-2">
-        <button type="button" className="btn-secondary px-2 text-sm" onClick={() => (shareUrl ? setPanel(panel === "share" ? null : "share") : void share())} disabled={shareBusy}>
-          {shareBusy ? "…" : "Share"}
+      <div className="mt-5 grid grid-cols-3 gap-2.5">
+        <button type="button" className="btn-primary px-2 text-sm" onClick={() => (shareUrl ? setPanel(panel === "share" ? null : "share") : void share())} disabled={shareBusy}>
+          <span aria-hidden>↑</span> {shareBusy ? "…" : "Share"}
         </button>
-        <button type="button" className="btn-primary px-2 text-sm" onClick={() => void dispatch()} disabled={trelloBusy || !trelloReady} title={trelloReady ? "" : "Connect Trello first"}>
-          {trelloBusy ? "Sending…" : "Send to Trello"}
+        <button type="button" className="btn-secondary px-2 text-sm" onClick={() => void dispatch()} disabled={trelloBusy || !trelloReady} title={trelloReady ? "" : "Connect Trello first"}>
+          {trelloBusy ? "Sending…" : "Trello"}
         </button>
         <button type="button" className="btn-secondary px-2 text-sm" onClick={() => setPanel(panel === "calendar" ? null : "calendar")}>
-          Calendar
+          <span aria-hidden>▦</span> Calendar
         </button>
       </div>
       {!trelloReady ? (
@@ -224,16 +227,16 @@ export function NoteView({ initial, trelloReady }: { initial: Graph; trelloReady
 
       {panel === "share" && shareUrl ? (
         <section className="card mt-3" aria-labelledby="share-h">
-          <h2 id="share-h" className="font-semibold">
+          <h2 id="share-h" className="label">
             Shared link
           </h2>
           <p className="mt-1 text-sm text-ink-muted">Anyone with this link can read the note and suggest corrections. No account needed. Expires in 90 days.</p>
-          <p className="mt-2 break-all rounded-lg bg-paper-2 p-2 font-mono text-sm select-all">{shareUrl}</p>
+          <p className="meta mt-2 break-all rounded-lg bg-paper-2 p-2 select-all">{shareUrl}</p>
           <button type="button" className="btn-secondary mt-2 w-full" onClick={copy}>
             {copied ? "Copied ✓" : "Copy link"}
           </button>
           <form onSubmit={sendEmail} className="mt-3 flex flex-col gap-2">
-            <label htmlFor="email-to" className="text-sm font-medium">
+            <label htmlFor="email-to" className="label">
               Email it {graph.participants.find((p) => !p.is_creator) ? `to ${graph.participants.find((p) => !p.is_creator)?.label}` : ""}
             </label>
             <input id="email-to" type="email" required value={emailTo} onChange={(e) => setEmailTo(e.target.value)} placeholder="them@example.com" className="tap rounded-lg border border-line px-3" />
@@ -251,10 +254,10 @@ export function NoteView({ initial, trelloReady }: { initial: Graph; trelloReady
 
       {panel === "calendar" ? (
         <section className="card mt-3" aria-labelledby="cal-h">
-          <h2 id="cal-h" className="font-semibold">
+          <h2 id="cal-h" className="label">
             Add to calendar
           </h2>
-          <label htmlFor="reminder" className="mt-2 block text-sm font-medium">
+          <label htmlFor="reminder" className="label mt-3 block">
             Reminder
           </label>
           <select id="reminder" value={reminder} onChange={(e) => setReminder(Number(e.target.value))} className="tap mt-1 w-full rounded-lg border border-line bg-white px-3">
@@ -288,8 +291,8 @@ export function NoteView({ initial, trelloReady }: { initial: Graph; trelloReady
       ) : null}
 
       <section className="mt-6" aria-labelledby="ledger-h">
-        <h2 id="ledger-h" className="text-xl font-bold">
-          Commitments
+        <h2 id="ledger-h" className="label">
+          The ledger · {commitments.length}
         </h2>
         {commitments.length === 0 ? (
           <p className="mt-2 text-ink-muted">No commitments in this note.</p>
@@ -317,7 +320,7 @@ export function NoteView({ initial, trelloReady }: { initial: Graph; trelloReady
 
       {decisions.length > 0 ? (
         <section className="mt-8" aria-labelledby="dec-h">
-          <h2 id="dec-h" className="text-xl font-bold">
+          <h2 id="dec-h" className="label">
             Decisions
           </h2>
           <ul className="mt-3 flex flex-col gap-3">
@@ -329,7 +332,7 @@ export function NoteView({ initial, trelloReady }: { initial: Graph; trelloReady
       ) : null}
       {questions.length > 0 ? (
         <section className="mt-8" aria-labelledby="oq-h">
-          <h2 id="oq-h" className="text-xl font-bold">
+          <h2 id="oq-h" className="label">
             Open questions
           </h2>
           <ul className="mt-3 flex flex-col gap-3">

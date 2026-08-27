@@ -83,8 +83,9 @@ export function CommitmentRow({
             </div>
           ) : null}
 
-          <button type="button" onClick={() => onJump(c.source_segment_ids[0] ?? 0)} className="mt-2 block text-left text-sm text-ink-muted underline-offset-2 hover:underline" aria-label="Show this in the transcript">
+          <button type="button" onClick={() => onJump(c.source_segment_ids[0] ?? 0)} className="quote mt-3 block w-full text-left" aria-label="Show this in the transcript">
             “{c.source_quote}”
+            <span className="meta mt-1 block not-italic text-accent">• seg {c.source_segment_ids[0] ?? 0} in transcript ↓</span>
           </button>
 
           {trelloState && trelloState.status !== "idle" ? (

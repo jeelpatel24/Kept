@@ -25,17 +25,15 @@ export function DueChip({
 
   const chip =
     dueDate === null ? (
-      <span className="chip chip-normal text-ink-muted">
+      <span className="chip border-dashed bg-white text-ink-muted">
         <span aria-hidden>＋</span> {editable ? "Add date" : "No date"}
       </span>
     ) : needsConfirm ? (
       <span className="chip chip-amber">
-        <span aria-hidden>⚠</span> {formatDueDate(dueDate)} · confirm?
+        <span aria-hidden className="font-bold">!</span> {formatDueDate(dueDate)} — confirm?
       </span>
     ) : (
-      <span className="chip chip-normal">
-        <span aria-hidden>📅</span> {formatDueDate(dueDate)}
-      </span>
+      <span className="chip chip-date">{formatDueDate(dueDate)}</span>
     );
 
   if (!editable) return chip;

@@ -85,7 +85,7 @@ export function TrelloSettings() {
       <Link href="/" className="text-ink-muted underline-offset-4 hover:underline">
         ← Home
       </Link>
-      <h1 className="mt-2 text-2xl font-bold">Trello</h1>
+      <h1 className="mt-2 text-3xl font-extrabold">Trello</h1>
       <p className="mt-1 text-ink-muted">Confirmed commitments become cards on one board and list you pick once.</p>
 
       {err ? (
@@ -107,15 +107,23 @@ export function TrelloSettings() {
         </a>
       ) : (
         <div className="mt-6 flex flex-col gap-4">
-          <p className="text-ok">
-            ✓ Connected{status.connectedAt ? ` on ${new Date(status.connectedAt).toLocaleDateString()}` : ""}
-            {status.expiresAt ? ` · token expires ${new Date(status.expiresAt).toLocaleDateString()}` : " · token expires in 30 days"}
-          </p>
+          <div className="card flex items-center gap-3">
+            <span aria-hidden className="flex h-9 w-9 flex-none items-center justify-center rounded-full bg-ok text-lg font-bold text-white">✓</span>
+            <div className="min-w-0 flex-1">
+              <p className="font-display font-bold">Connected</p>
+              <p className="meta">
+                {status.expiresAt ? `Token expires ${new Date(status.expiresAt).toLocaleDateString("en-CA", { month: "short", day: "numeric" })}` : "Token expires in 30 days"} · encrypted
+              </p>
+            </div>
+            <button type="button" className="btn-danger !min-h-[44px] px-3 text-sm" onClick={disconnect} disabled={busy}>
+              Revoke
+            </button>
+          </div>
 
-          <label htmlFor="board" className="font-medium">
+          <label htmlFor="board" className="label">
             Board
           </label>
-          <select id="board" value={boardId} onChange={(e) => void onBoardChange(e.target.value)} className="tap rounded-lg border border-line bg-white px-3">
+          <select id="board" value={boardId} onChange={(e) => void onBoardChange(e.target.value)} className="tap rounded-[14px] border border-line bg-white px-3 shadow-[inset_0_2px_4px_rgba(27,36,48,0.06)]">
             <option value="">Choose a board…</option>
             {(status.boards ?? []).map((b) => (
               <option key={b.id} value={b.id}>
@@ -124,10 +132,10 @@ export function TrelloSettings() {
             ))}
           </select>
 
-          <label htmlFor="list" className="font-medium">
+          <label htmlFor="list" className="label">
             List
           </label>
-          <select id="list" value={listId} onChange={(e) => setListId(e.target.value)} disabled={!boardId} className="tap rounded-lg border border-line bg-white px-3 disabled:opacity-50">
+          <select id="list" value={listId} onChange={(e) => setListId(e.target.value)} disabled={!boardId} className="tap rounded-[14px] border border-line bg-white px-3 shadow-[inset_0_2px_4px_rgba(27,36,48,0.06)] disabled:opacity-50">
             <option value="">{boardId ? "Choose a list…" : "Pick a board first"}</option>
             {lists.map((l) => (
               <option key={l.id} value={l.id}>
@@ -140,12 +148,9 @@ export function TrelloSettings() {
             {busy ? "Saving…" : "Save as default"}
           </button>
 
-          <a href={status.authorizeUrl} className="btn-secondary">
+          <a href={status.authorizeUrl} className="btn-quiet">
             Reconnect (refresh token)
           </a>
-          <button type="button" className="btn-danger" onClick={disconnect} disabled={busy}>
-            Disconnect &amp; revoke
-          </button>
         </div>
       )}
     </main>

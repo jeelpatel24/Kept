@@ -100,7 +100,6 @@ export function ReviewEditor({ initial }: { initial: Graph }) {
         <p className="mt-1 text-ink-muted">
           {formatRecordedAt(graph.session.recorded_at, graph.session.timezone)} · {graph.participants.map((p) => p.label).join(" & ")}
         </p>
-        <p className="mt-2 text-sm text-ink-muted">Review before anything is shared or sent. Amber means we weren’t sure — tap to confirm or fix.</p>
       </header>
 
       {error ? (
@@ -109,9 +108,22 @@ export function ReviewEditor({ initial }: { initial: Graph }) {
         </p>
       ) : null}
 
+      {pendingLow + unknownOwners > 0 ? (
+        <section className="mt-4 rounded-[16px] border border-amber-line bg-amber-bg p-4" aria-label="Needs your attention">
+          <p className="font-display font-bold text-amber">
+            <span aria-hidden>⚠</span> {pendingLow + unknownOwners} thing{pendingLow + unknownOwners === 1 ? "" : "s"} need{pendingLow + unknownOwners === 1 ? "s" : ""} you
+          </p>
+          <p className="mt-1 text-sm text-amber">
+            Kept wasn’t sure about {[pendingLow > 0 ? `${pendingLow} date${pendingLow === 1 ? "" : "s"}` : null, unknownOwners > 0 ? `${unknownOwners} owner${unknownOwners === 1 ? "" : "s"}` : null].filter(Boolean).join(" and ")}. Tap the amber chips to set them. Nothing is shared or sent until you confirm.
+          </p>
+        </section>
+      ) : (
+        <p className="mt-3 text-sm text-ink-muted">Review before anything is shared or sent. Nothing leaves this screen until you confirm.</p>
+      )}
+
       <section className="mt-6" aria-labelledby="commitments-h">
-        <h2 id="commitments-h" className="text-xl font-bold">
-          Commitments {commitments.length > 0 ? <span className="text-ink-muted">({commitments.length})</span> : null}
+        <h2 id="commitments-h" className="label">
+          Commitments{commitments.length > 0 ? ` · ${commitments.length}` : ""}
         </h2>
         {commitments.length === 0 ? (
           <p className="mt-2 rounded-2xl border border-dashed border-line p-4 text-ink-muted">No commitments found. Here’s the transcript below — if we missed one, it wasn’t clear enough in the words to extract safely.</p>
@@ -122,11 +134,7 @@ export function ReviewEditor({ initial }: { initial: Graph }) {
             ))}
           </ul>
         )}
-        {unknownOwners > 0 ? (
-          <p className="mt-2 text-sm text-amber">
-            <span aria-hidden>?</span> {unknownOwners} commitment{unknownOwners === 1 ? "" : "s"} with no clear owner — we didn’t guess. Tap “Who?” to set it (optional).
-          </p>
-        ) : null}
+
       </section>
 
       <Section title="Decisions" items={decisions} graph={graph} onPatch={patchCommitment} onJump={setHighlight} empty="No decisions extracted." />
@@ -144,7 +152,7 @@ export function ReviewEditor({ initial }: { initial: Graph }) {
         }}
       />
 
-      <div className="fixed inset-x-0 bottom-0 border-t border-line bg-paper/95 p-4 backdrop-blur">
+      <div className="fixed inset-x-0 bottom-0 border-t border-line bg-paper/95 p-4 pb-5 backdrop-blur">
         <div className="mx-auto max-w-md">
           {pendingLow > 0 ? (
             <p className="mb-2 text-center text-sm text-amber" role="status">
@@ -182,7 +190,7 @@ function Section({
 }) {
   return (
     <section className="mt-8" aria-label={title}>
-      <h2 className="text-xl font-bold">{title}</h2>
+      <h2 className="label">{title}</h2>
       {items.length === 0 ? (
         <p className="mt-2 text-ink-muted">{empty}</p>
       ) : (
