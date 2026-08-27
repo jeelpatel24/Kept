@@ -28,6 +28,7 @@ export type UserRow = Timestamps & {
   trello_board_id: string | null;
   trello_list_id: string | null;
   trello_connected_at: string | null;
+  reminders_enabled: boolean;
 }
 
 export type SessionRow = Timestamps & {
@@ -151,7 +152,7 @@ type Table<Row, Ins, Upd = Partial<Ins>> = {
 export type Database = {
   public: {
     Tables: {
-      users: Table<UserRow, Insert<UserRow, "created_at" | "updated_at" | "display_name" | "trello_token_encrypted" | "trello_board_id" | "trello_list_id" | "trello_connected_at">>;
+      users: Table<UserRow, Insert<UserRow, "created_at" | "updated_at" | "display_name" | "trello_token_encrypted" | "trello_board_id" | "trello_list_id" | "trello_connected_at" | "reminders_enabled">>;
       sessions: Table<SessionRow, Insert<SessionRow, "id" | "created_at" | "updated_at" | "deleted_at" | "status" | "recorded_at" | "duration_ms" | "audio_hash" | "audio_deleted_at" | "provider_used" | "error_detail">>;
       transcript_segments: Table<TranscriptSegmentRow, Insert<TranscriptSegmentRow, "id" | "created_at" | "updated_at" | "speaker_label" | "speaker_confirmed">>;
       notes: Table<NoteRow, Insert<NoteRow, "id" | "created_at" | "updated_at" | "deleted_at" | "summary" | "status" | "confirmed_at" | "extraction_hash">>;

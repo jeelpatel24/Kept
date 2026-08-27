@@ -68,6 +68,7 @@ Meeting-notes tools produce **a summary for one person**. A summary is not an ag
 4. **Confirm.** Nothing is shared or sent until a human says so. Enforced server-side, not by hiding a button.
 5. **Share** a signed link. The other party sees *their* items first, and can suggest a correction without signing up. You accept or reject.
 6. **Dispatch.** Confirmed commitments become Trello cards (owner, verbatim quote, due date, link back to the note) and `.ics` calendar events with reminders — or a `webcal://` feed that stays in sync when things change.
+7. **Follow up.** One screen shows everything still owed across every conversation — Overdue · Today · Tomorrow — with one-tap done. Opt in and a scheduled daily digest emails you what's overdue and due, calendar-reminder style. The system chases the promises so you don't have to.
 
 ---
 
@@ -171,7 +172,7 @@ npm run typecheck && npm run lint
 npm run build && npm run check:secrets
 ```
 
-Recording from a phone needs HTTPS — deploy to Vercel (import the repo, paste in your `.env.local`, set `APP_URL` to the Vercel URL, register that URL in Supabase and Trello).
+Recording from a phone needs HTTPS — deploy to Vercel (import the repo, paste in your `.env.local`, set `APP_URL` to the Vercel URL, register that URL in Supabase and Trello). Set `CRON_SECRET` and the included `vercel.json` schedules the daily reminder digest (`/api/reminders/run`, 12:00 UTC).
 </details>
 
 Full walkthrough and failure drills: [`docs/E2E-CHECKLIST.md`](docs/E2E-CHECKLIST.md).

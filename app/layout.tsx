@@ -12,8 +12,16 @@ import "@fontsource/ibm-plex-mono/600.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Kept",
+  title: { default: "Kept", template: "%s — Kept" },
   description: "Record a conversation. Every commitment becomes a tracked task.",
+  applicationName: "Kept",
+  appleWebApp: { capable: true, title: "Kept", statusBarStyle: "default" },
+  openGraph: {
+    title: "Kept",
+    description: "You said it. Now it's on the board. Conversations become shared, correctable notes — and every commitment becomes a tracked task.",
+    type: "website",
+    siteName: "Kept",
+  },
 };
 
 export const viewport: Viewport = {

@@ -16,14 +16,26 @@ export default async function HomePage() {
     : { data: [] as { note_id: string }[] };
   const openCount = new Map<string, number>();
   (openRows ?? []).forEach((r) => openCount.set(r.note_id, (openCount.get(r.note_id) ?? 0) + 1));
+  const { count: totalOpen } = await supabase
+    .from("commitments")
+    .select("id", { count: "exact", head: true })
+    .eq("kind", "commitment")
+    .eq("status", "open")
+    .is("deleted_at", null);
 
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col px-5 pb-10 pt-8">
       <header className="flex items-baseline justify-between">
         <h1><KeptWordmark /></h1>
-        <Link href="/settings/trello" className="tap flex items-center text-ink-muted underline-offset-4 hover:underline">
-          Trello
-        </Link>
+        <nav className="flex items-center gap-4">
+          <Link href="/followups" className="tap flex items-center gap-1.5 font-semibold text-ink underline-offset-4 hover:underline">
+            Follow-ups
+            {totalOpen ? <span className="flex h-6 min-w-6 items-center justify-center rounded-full bg-accent px-1.5 text-xs font-bold text-white">{totalOpen}</span> : null}
+          </Link>
+          <Link href="/settings/trello" className="tap flex items-center text-ink-muted underline-offset-4 hover:underline">
+            Trello
+          </Link>
+        </nav>
       </header>
 
       <section className="flex flex-1 flex-col items-center justify-center py-10">
