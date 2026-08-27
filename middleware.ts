@@ -3,7 +3,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PUBLIC_PREFIXES = ["/login", "/auth", "/s/", "/api/share/", "/api/health", "/_next", "/favicon"];
+const PUBLIC_PREFIXES = ["/login", "/auth", "/s/", "/api/share/", "/api/health", "/api/reminders/run", "/_next", "/favicon", "/manifest", "/icon"];
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request });
