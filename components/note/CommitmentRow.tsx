@@ -29,6 +29,8 @@ export function CommitmentRow({
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(c.text);
   const isCommitment = c.kind === "commitment";
+  const isDone = c.status === "done";
+  const doneCls = isDone ? "text-ink-muted line-through" : "";
 
   return (
     <li className="card">
@@ -36,7 +38,8 @@ export function CommitmentRow({
         {showStatus && isCommitment ? (
           <input
             type="checkbox"
-            aria-label={`Mark "${c.text}" ${c.status === "done" ? "open" : "done"}`}
+            aria-label={`Mark "${c.text}" ${c.status === "done" ? "open again" : "done"}`}
+            title={c.status === "done" ? "Done — uncheck to reopen" : "Mark done — removes it from follow-ups and reminders"}
             checked={c.status === "done"}
             onChange={(e) => onPatch({ status: e.target.checked ? "done" : "open" })}
             className="mt-1 h-6 w-6 shrink-0 accent-accent"
@@ -65,19 +68,24 @@ export function CommitmentRow({
               </div>
             </form>
           ) : (
-            <p className={`text-lg font-medium ${c.status === "done" ? "text-ink-muted line-through" : ""}`}>
+            <p className="text-lg font-medium">
               {editable ? (
-                <button type="button" className="text-left" onClick={() => setEditing(true)} aria-label={`Edit: ${c.text}`}>
+                <button type="button" className={`text-left ${doneCls}`} onClick={() => setEditing(true)} aria-label={`Edit: ${c.text}`}>
                   {c.text}
                 </button>
               ) : (
-                c.text
+                <span className={doneCls}>{c.text}</span>
               )}
             </p>
           )}
 
           {isCommitment ? (
-            <div className="mt-2 flex flex-wrap gap-2">
+            <div className="mt-2 flex flex-wrap items-center gap-2">
+              {showStatus && isDone ? (
+                <span className="chip chip-ok !min-h-0 !py-1.5 text-sm" role="status">
+                  ✓ Done — out of follow-ups &amp; reminders
+                </span>
+              ) : null}
               <OwnerChip ownerId={c.owner_participant_id} participants={participants} editable={editable} onChange={(id) => onPatch({ ownerParticipantId: id })} onAddParticipant={onAddParticipant} />
               <DueChip dueDate={c.due_date} confidence={c.due_confidence} confirmed={c.due_confirmed} editable={editable} onSetDate={(d) => onPatch({ dueDate: d })} onConfirm={() => onPatch({ dueConfirmed: true })} />
             </div>
