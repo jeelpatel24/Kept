@@ -1,27 +1,39 @@
 @import "tailwindcss";
 
-/* UX-BRIEF §2: near-black on off-white, one accent, amber ONLY for "needs your confirmation". */
+/* ————————————————————————————————————————————————————————————————
+   Kept — interface system ("site hardware, not glassware")
+   Every control is a physical key with a real bottom edge that
+   compresses under the thumb. High-contrast for daylight, big targets
+   for gloves. Amber appears in one situation only: the model is unsure
+   and needs a human. (UX-BRIEF §2, prototype brand sheet)
+   ———————————————————————————————————————————————————————————————— */
+
 @theme {
-  --color-ink: #111111;
-  --color-ink-muted: #5a5a5a;
-  --color-paper: #faf9f6;
-  --color-paper-2: #f0eee8;
-  --color-line: #d9d6cf;
-  --color-accent: #1d4ed8;
+  --color-paper: #f4f2ed;
+  --color-paper-2: #ece9e1;
+  --color-line: #d8d4ca;
+  --color-ink: #1b2430;
+  --color-ink-muted: #5d6673;
+  --color-accent: #1f5fe0;
+  --color-accent-edge: #16449c;
+  --color-accent-tint: #e4ecfc;
   --color-accent-ink: #ffffff;
-  --color-amber: #b45309;
-  --color-amber-bg: #fff4e0;
-  --color-amber-line: #f0b35c;
-  --color-danger: #b91c1c;
-  --color-danger-bg: #fdecec;
-  --color-ok: #166534;
-  --color-ok-bg: #e8f5ea;
-  --color-rec: #dc2626;
-  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --color-amber: #8a5a10;
+  --color-amber-bg: #faf1df;
+  --color-amber-line: #e09a2b;
+  --color-danger: #c0392b;
+  --color-danger-bg: #f9e9e7;
+  --color-danger-edge: #92291d;
+  --color-ok: #2e7a57;
+  --color-ok-bg: #e6f1ea;
+  --color-rec: #c93a2e;
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: Archivo, "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 html {
-  font-size: 17px; /* UX-BRIEF §2: large base, read in sunlight */
+  font-size: 17px; /* read in sunlight */
 }
 
 body {
@@ -31,87 +43,182 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Tap targets ≥ 48px (UX-BRIEF §2) */
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* Tap targets ≥ 52px for gloves (prototype spec; UX-BRIEF ≥48) */
 @utility tap {
-  min-height: 48px;
+  min-height: 52px;
   min-width: 48px;
 }
 
 @layer components {
+  /* ————— Keys: a physical key drops 4px on press and the shadow collapses ————— */
   .btn,
   .btn-primary,
   .btn-secondary,
+  .btn-quiet,
   .btn-danger {
-    min-height: 48px;
+    min-height: 52px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    border-radius: 0.75rem;
+    border-radius: 14px;
     padding-inline: 1.25rem;
     font-weight: 600;
-    transition: background-color 150ms;
-  }
-  .btn:disabled,
-  .btn-primary:disabled,
-  .btn-secondary:disabled,
-  .btn-danger:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+    font-family: var(--font-sans);
+    transition:
+      transform 70ms ease,
+      box-shadow 70ms ease,
+      background-color 120ms ease;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    text-align: center;
   }
   .btn-primary {
-    background: var(--color-accent);
+    background: linear-gradient(180deg, #3b74e8 0%, var(--color-accent) 55%);
     color: var(--color-accent-ink);
-  }
-  .btn-primary:hover:not(:disabled) {
-    background: #1e40af;
+    border: 1px solid var(--color-accent-edge);
+    box-shadow:
+      0 4px 0 var(--color-accent-edge),
+      0 6px 12px rgba(27, 36, 48, 0.18);
   }
   .btn-secondary {
-    border: 2px solid var(--color-line);
-    background: #fff;
+    background: #ffffff;
     color: var(--color-ink);
+    border: 1px solid var(--color-line);
+    box-shadow:
+      0 4px 0 #c8c3b7,
+      0 6px 10px rgba(27, 36, 48, 0.08);
   }
-  .btn-secondary:hover:not(:disabled) {
-    background: var(--color-paper-2);
+  .btn-quiet {
+    background: transparent;
+    color: var(--color-ink);
+    border: 1px solid var(--color-line);
+    box-shadow: none;
   }
   .btn-danger {
-    border: 2px solid var(--color-danger);
-    background: #fff;
+    background: #ffffff;
     color: var(--color-danger);
+    border: 1px solid var(--color-danger);
+    box-shadow:
+      0 4px 0 var(--color-danger-edge),
+      0 6px 10px rgba(27, 36, 48, 0.08);
+  }
+  .btn-primary:active:not(:disabled),
+  .btn-secondary:active:not(:disabled),
+  .btn-danger:active:not(:disabled) {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  }
+  .btn-quiet:active:not(:disabled) {
+    background: var(--color-paper-2);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background: linear-gradient(180deg, #4a80ea 0%, #2563e6 55%);
+  }
+  .btn-secondary:hover:not(:disabled),
+  .btn-quiet:hover:not(:disabled) {
+    background: var(--color-paper-2);
   }
   .btn-danger:hover:not(:disabled) {
     background: var(--color-danger-bg);
   }
+  /* Blocked, with a reason shown — never hidden */
+  .btn:disabled,
+  .btn-primary:disabled,
+  .btn-secondary:disabled,
+  .btn-quiet:disabled,
+  .btn-danger:disabled {
+    background: var(--color-paper-2);
+    color: var(--color-ink-muted);
+    border-color: var(--color-line);
+    box-shadow: 0 4px 0 var(--color-line);
+    cursor: not-allowed;
+  }
 
+  /* ————— Chips ————— */
   .chip {
     min-height: 48px;
     display: inline-flex;
     align-items: center;
-    gap: 0.375rem;
-    border-radius: 9999px;
-    border-width: 2px;
-    border-style: solid;
-    padding: 0.375rem 0.75rem;
-    font-size: 0.95rem;
-    font-weight: 500;
-  }
-  .chip-normal {
-    border-color: var(--color-line);
-    background: #fff;
+    gap: 0.4rem;
+    border-radius: 12px;
+    border: 1px solid var(--color-line);
+    padding: 0.35rem 0.75rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+    background: var(--color-paper-2);
     color: var(--color-ink);
   }
-  /* Amber state: colour + icon + label, never colour alone (UX-BRIEF §7) */
+  .chip-normal {
+    background: var(--color-paper-2);
+  }
+  .chip-date {
+    background: var(--color-accent-tint);
+    border-color: #c3d4f6;
+    color: #1747a8;
+  }
+  /* Amber: only ever "needs confirming" — icon + label, never colour alone */
   .chip-amber {
-    border-color: var(--color-amber-line);
     background: var(--color-amber-bg);
+    border-color: var(--color-amber-line);
     color: var(--color-amber);
   }
+  .chip-ok {
+    background: var(--color-ok-bg);
+    border-color: #bcd9c9;
+    color: var(--color-ok);
+  }
 
+  .avatar-dot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 9999px;
+    background: var(--color-ink);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex: none;
+  }
+
+  /* ————— Cards & labels ————— */
   .card {
-    border-radius: 1rem;
+    border-radius: 16px;
     border: 1px solid var(--color-line);
     background: #fff;
     padding: 1rem;
+    box-shadow: 0 2px 6px rgba(27, 36, 48, 0.05);
+  }
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+  }
+  .meta {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--color-ink-muted);
+  }
+
+  .quote {
+    border-left: 3px solid var(--color-line);
+    padding-left: 0.7rem;
+    font-style: italic;
+    color: var(--color-ink-muted);
+    font-size: 0.92rem;
   }
 }
 
@@ -128,8 +235,18 @@ body {
   animation: pulse-rec 1.2s ease-in-out infinite;
 }
 
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spinner {
+  animation: spin 0.9s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .rec-dot {
+  .rec-dot,
+  .spinner {
     animation: none;
   }
 }

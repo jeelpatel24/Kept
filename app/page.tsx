@@ -1,6 +1,7 @@
 // S1 — Home / Record. Implements: PRD-F1, PRD-F3 · UX-BRIEF §5 S1.
 // One obvious action. Three most recent notes. Honest empty state.
 import Link from "next/link";
+import { KeptWordmark } from "@/components/KeptMark";
 import { RecordButton } from "@/components/RecordButton";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -19,7 +20,7 @@ export default async function HomePage() {
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col px-5 pb-10 pt-8">
       <header className="flex items-baseline justify-between">
-        <h1 className="text-2xl font-bold">Kept</h1>
+        <h1><KeptWordmark /></h1>
         <Link href="/settings/trello" className="tap flex items-center text-ink-muted underline-offset-4 hover:underline">
           Trello
         </Link>
@@ -32,8 +33,8 @@ export default async function HomePage() {
 
       <section aria-labelledby="recent">
         <div className="flex items-baseline justify-between">
-          <h2 id="recent" className="text-lg font-semibold">
-            Recent
+          <h2 id="recent" className="label">
+            Recent conversations
           </h2>
           <Link href="/notes" className="tap flex items-center text-ink-muted underline-offset-4 hover:underline">
             All notes
@@ -47,9 +48,9 @@ export default async function HomePage() {
               const open = openCount.get(n.id) ?? 0;
               return (
                 <li key={n.id}>
-                  <Link href={n.status === "draft" ? `/notes/${n.id}/review` : `/notes/${n.id}`} className="card tap flex items-center justify-between gap-3">
+                  <Link href={n.status === "draft" ? `/notes/${n.id}/review` : `/notes/${n.id}`} className="card tap flex items-center justify-between gap-3 active:translate-y-[2px] transition-transform">
                     <span className="font-medium">{n.title}</span>
-                    <span className="shrink-0 text-ink-muted">
+                    <span className="meta shrink-0">
                       {n.status === "draft" ? "Needs review" : `${open} open`}
                     </span>
                   </Link>

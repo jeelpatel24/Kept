@@ -89,10 +89,12 @@ export function Processing({ sessionId }: { sessionId: string }) {
 
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col px-5 py-8">
-      <h1 className="text-2xl font-bold">Processing</h1>
-      <ol className="mt-4 flex flex-col gap-2" aria-label="Progress">
-        <StepRow label="Transcribing" state={stage === "transcribing" ? "active" : stage === "transcription_failed" ? "failed" : stage === "loading" ? "pending" : "done"} />
-        <StepRow label="Finding commitments" state={stage === "extracting" ? "active" : stage === "extraction_failed" ? "failed" : stage === "done" ? "done" : "pending"} />
+      <h1 className="text-3xl font-extrabold">Working through it</h1>
+      <p className="mt-1 text-ink-muted">About 30 seconds for a two-minute conversation.</p>
+      <ol className="card mt-4 flex flex-col gap-3" aria-label="Progress">
+        <StepRow label="Audio uploaded" state="done" />
+        <StepRow label="Transcribed" state={stage === "transcribing" ? "active" : stage === "transcription_failed" ? "failed" : stage === "loading" ? "pending" : "done"} />
+        <StepRow label="Finding commitments & dates" state={stage === "extracting" ? "active" : stage === "extraction_failed" ? "failed" : stage === "done" ? "done" : "pending"} />
       </ol>
       <p role="status" aria-live="polite" className={`mt-4 ${failed ? "rounded-xl bg-danger-bg p-3 text-danger" : "text-ink-muted"}`}>
         {message}
@@ -112,13 +114,13 @@ export function Processing({ sessionId }: { sessionId: string }) {
 
       {segments.length > 0 ? (
         <section className="mt-8" aria-labelledby="transcript-h">
-          <h2 id="transcript-h" className="text-lg font-semibold">
-            Transcript
+          <h2 id="transcript-h" className="label">
+            Transcript so far
           </h2>
           <ol className="mt-2 flex flex-col gap-2">
             {segments.map((s) => (
-              <li key={s.seq} className="text-ink">
-                <span className="mr-2 font-mono text-xs text-ink-muted">{fmtMs(s.start_ms)}</span>
+              <li key={s.seq} className="card !p-3 text-ink">
+                <span className="meta mr-2">{fmtMs(s.start_ms)}</span>
                 {s.text}
               </li>
             ))}
@@ -137,14 +139,18 @@ function fmtMs(ms: number) {
 }
 
 function StepRow({ label, state }: { label: string; state: "pending" | "active" | "done" | "failed" }) {
-  const icon = state === "done" ? "✓" : state === "failed" ? "✕" : state === "active" ? "…" : "○";
-  const cls = state === "done" ? "text-ok" : state === "failed" ? "text-danger" : state === "active" ? "text-ink" : "text-ink-muted";
   return (
-    <li className={`flex items-center gap-3 ${cls}`}>
-      <span aria-hidden className="w-5 text-center font-bold">
-        {icon}
-      </span>
-      <span className="sr-only">{state}</span>
+    <li className={`flex items-center gap-3 font-medium ${state === "pending" ? "text-ink-muted" : state === "failed" ? "text-danger" : "text-ink"}`}>
+      {state === "done" ? (
+        <span aria-hidden className="flex h-7 w-7 items-center justify-center rounded-full bg-ok text-sm font-bold text-white">✓</span>
+      ) : state === "failed" ? (
+        <span aria-hidden className="flex h-7 w-7 items-center justify-center rounded-full bg-danger text-sm font-bold text-white">✕</span>
+      ) : state === "active" ? (
+        <span aria-hidden className="spinner h-7 w-7 rounded-full border-[3px] border-accent border-t-transparent" />
+      ) : (
+        <span aria-hidden className="h-7 w-7 rounded-full border-2 border-line" />
+      )}
+      <span className="sr-only">{state}:</span>
       {label}
     </li>
   );

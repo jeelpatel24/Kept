@@ -26,11 +26,11 @@ export function OwnerChip({
     <span className={`chip ${unknown ? "chip-amber" : "chip-normal"}`}>
       {unknown ? (
         <>
-          <span aria-hidden>?</span> Who?
+          <span aria-hidden className="font-bold">!</span> Who?{editable ? " — confirm" : ""}
         </>
       ) : (
         <>
-          <span aria-hidden>👤</span> {owner.label}
+          <span aria-hidden className="avatar-dot">{owner.label.charAt(0).toUpperCase()}</span> {owner.label}
         </>
       )}
     </span>

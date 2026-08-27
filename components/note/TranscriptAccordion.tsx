@@ -36,8 +36,8 @@ export function TranscriptAccordion({
 
   return (
     <section className="mt-8" aria-labelledby="transcript-h">
-      <button type="button" className="tap flex w-full items-center justify-between rounded-xl border border-line bg-white px-4 text-left" aria-expanded={open} aria-controls="transcript-body" onClick={() => setOpen((v) => !v)}>
-        <span id="transcript-h" className="text-lg font-semibold">
+      <button type="button" className="tap flex w-full items-center justify-between rounded-[14px] border border-line bg-white px-4 text-left shadow-[0_3px_0_#c8c3b7] transition-all duration-75 active:translate-y-[3px] active:shadow-none" aria-expanded={open} aria-controls="transcript-body" onClick={() => setOpen((v) => !v)}>
+        <span id="transcript-h" className="label !text-ink">
           Transcript
         </span>
         <span aria-hidden>{open ? "▾" : "▸"}</span>

@@ -2,6 +2,7 @@
 // Guest view. Read-first, "Your items" on top, one optional action: "Something wrong?" → inline correction.
 // Implements: PRD-F8, F9 · UX-BRIEF S6 (no signup prompt, no banners).
 import { useState } from "react";
+import { KeptTile } from "@/components/KeptMark";
 import { fmtMs, formatDueDate, formatRecordedAt } from "@/lib/format";
 
 type GuestCommitment = { id: string; kind: string; text: string; owner_participant_id: string | null; due_date: string | null; source_quote: string; source_segment_ids: number[]; status: string };
@@ -36,21 +37,30 @@ export function GuestNote({
   const questions = commitments.filter((c) => c.kind === "open_question");
 
   return (
-    <main className="mx-auto max-w-md px-5 pb-16 pt-6">
-      <p className="text-sm text-ink-muted">Shared note · Kept</p>
-      <h1 className="mt-1 text-2xl font-bold">{note.title}</h1>
-      <p className="mt-1 text-ink-muted">
-        {formatRecordedAt(session.recorded_at, session.timezone)} · {participants.map((p) => p.label).join(" & ")}
-      </p>
+    <main className="mx-auto max-w-md pb-16">
+      <header className="bg-ink px-5 pb-5 pt-6 text-white">
+        <div className="flex items-center gap-2">
+          <KeptTile size={30} />
+          <span className="font-display text-xl font-extrabold tracking-tight">
+            Kept<span className="text-[#6f9bef]">.</span>
+          </span>
+        </div>
+        <p className="mt-3 text-sm text-white/80">
+          {creator?.label ?? "Someone"} shared the record of your conversation on {formatRecordedAt(session.recorded_at, session.timezone)}. No account needed.
+        </p>
+      </header>
+      <div className="px-5">
+      <h1 className="mt-5 text-3xl font-extrabold">{note.title}</h1>
+      <p className="mt-1 text-ink-muted">{participants.map((p) => p.label).join(" & ")}</p>
       {note.summary ? <p className="mt-3">{note.summary}</p> : null}
 
       {guests.map((g) => {
         const mine = byOwner(g.id);
         return (
           <section key={g.id} className="mt-6" aria-labelledby={`your-${g.id}`}>
-            <h2 id={`your-${g.id}`} className="text-xl font-bold">
-              {guests.length > 1 ? `${g.label}’s items` : "Your items"}
-              {guests.length === 1 ? <span className="ml-2 text-base font-normal text-ink-muted">({g.label})</span> : null}
+            <h2 id={`your-${g.id}`} className="label !text-[#1747a8]">
+              {guests.length > 1 ? `${g.label}’s items` : mine.length === 1 ? "Your item" : `Your ${mine.length === 0 ? "" : mine.length + " "}items`}
+              {guests.length === 1 ? <span className="ml-2 normal-case tracking-normal text-ink-muted">({g.label})</span> : null}
             </h2>
             {mine.length === 0 ? (
               <p className="mt-2 text-ink-muted">Nothing on you from this conversation.</p>
@@ -66,7 +76,7 @@ export function GuestNote({
       })}
 
       <section className="mt-8" aria-labelledby="theirs">
-        <h2 id="theirs" className="text-xl font-bold">
+        <h2 id="theirs" className="label">
           {creator ? `${creator.label}’s items` : "Other items"}
         </h2>
         {others.length === 0 ? (
@@ -82,14 +92,14 @@ export function GuestNote({
 
       {decisions.length > 0 ? (
         <section className="mt-8" aria-labelledby="dec">
-          <h2 id="dec" className="text-xl font-bold">
+          <h2 id="dec" className="label">
             Decisions
           </h2>
           <ul className="mt-3 flex flex-col gap-2">
             {decisions.map((c) => (
               <li key={c.id} className="card">
                 <p className="font-medium">{c.text}</p>
-                <p className="mt-1 text-sm text-ink-muted">“{c.source_quote}”</p>
+                <p className="quote mt-2">“{c.source_quote}”</p>
               </li>
             ))}
           </ul>
@@ -98,7 +108,7 @@ export function GuestNote({
 
       {questions.length > 0 ? (
         <section className="mt-8" aria-labelledby="oq">
-          <h2 id="oq" className="text-xl font-bold">
+          <h2 id="oq" className="label">
             Open questions
           </h2>
           <ul className="mt-3 flex flex-col gap-2">
@@ -132,6 +142,7 @@ export function GuestNote({
         </ol>
       ) : null}
 
+      </div>
       {correcting ? (
         <CorrectionForm
           token={token}
@@ -157,7 +168,7 @@ function Row({ c, owner, dueLabel, onWrong, sent }: { c: GuestCommitment; owner?
         {dueLabel}
         {c.status === "done" ? " · done" : ""}
       </p>
-      <p className="mt-1 text-sm text-ink-muted">“{c.source_quote}”</p>
+      <p className="quote mt-2">“{c.source_quote}”</p>
       <div className="mt-2">
         {sent ? (
           <span className="text-sm text-ok">Suggestion sent ✓</span>

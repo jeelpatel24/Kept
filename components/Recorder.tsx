@@ -215,55 +215,83 @@ export function Recorder({ sessionId, initialStatus, autostart }: { sessionId: s
 
   const isRec = phase === "recording";
   const warning = isRec && elapsed >= WARN_MS;
+  const progress = Math.min(1, elapsed / HARD_STOP_MS);
+  const R = 88;
+  const CIRC = 2 * Math.PI * R;
 
   return (
-    <main className={`flex min-h-dvh flex-col ${isRec ? "bg-rec text-white" : "bg-paper text-ink"}`}>
-      <div role="status" aria-live="assertive" className="flex items-center justify-center gap-2 py-4 text-lg font-semibold">
+    <main className="mx-auto flex min-h-dvh max-w-md flex-col px-5 pb-8 pt-5">
+      <div role="status" aria-live="assertive" className="flex justify-center">
         {isRec ? (
-          <>
-            <span className="rec-dot inline-block h-4 w-4 rounded-full bg-white" aria-hidden />
+          <span className="inline-flex items-center gap-2 rounded-full bg-rec px-5 py-2.5 font-display text-sm font-extrabold tracking-[0.12em] text-white shadow-[0_3px_0_#92291d]">
+            <span className="rec-dot inline-block h-2.5 w-2.5 rounded-full bg-white" aria-hidden />
             RECORDING
-          </>
-        ) : phase === "starting" ? (
-          "Starting…"
-        ) : phase === "stopping" || phase === "uploading" ? (
-          "Saving…"
-        ) : phase === "error" ? (
-          "Stopped"
+          </span>
         ) : (
-          "Ready"
+          <span className="inline-flex items-center gap-2 rounded-full border border-line bg-white px-5 py-2.5 font-display text-sm font-extrabold tracking-[0.12em] text-ink-muted">
+            {phase === "starting" ? "STARTING…" : phase === "stopping" || phase === "uploading" ? "SAVING…" : phase === "error" ? "STOPPED" : "READY"}
+          </span>
         )}
       </div>
 
       {warning ? (
-        <div role="alert" className="mx-4 rounded-xl bg-white/20 p-3 text-center font-semibold">
-          ⚠ 2 minutes left — recording stops at 20:00
+        <div role="alert" className="mt-4 rounded-[14px] border border-amber-line bg-amber-bg p-3 text-center font-semibold text-amber">
+          <span aria-hidden>⚠</span> 2 minutes left — recording stops at 20:00
         </div>
       ) : null}
 
-      <div className="flex flex-1 flex-col items-center justify-center px-5">
-        <p className="font-mono text-7xl font-bold tabular-nums" aria-label={`Elapsed ${fmt(elapsed)}`}>
-          {fmt(elapsed)}
-        </p>
-        <div className="mt-8 h-3 w-full max-w-xs overflow-hidden rounded-full bg-black/20" aria-hidden>
-          <div className="h-full rounded-full bg-white transition-[width] duration-75" style={{ width: `${Math.round(level * 100)}%` }} />
+      <div className="flex flex-1 flex-col items-center justify-center">
+        <div className="relative" aria-hidden>
+          <svg width="230" height="230" viewBox="0 0 230 230">
+            <circle cx="115" cy="115" r={R} fill="#ffffff" stroke="var(--color-line)" strokeWidth="10" />
+            <circle
+              cx="115"
+              cy="115"
+              r={R}
+              fill="none"
+              stroke={isRec ? "var(--color-rec)" : "var(--color-line)"}
+              strokeWidth="10"
+              strokeLinecap="round"
+              strokeDasharray={CIRC}
+              strokeDashoffset={CIRC * (1 - progress)}
+              transform="rotate(-90 115 115)"
+              style={{ transition: "stroke-dashoffset 0.25s linear" }}
+            />
+          </svg>
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <p className="font-mono text-5xl font-semibold tabular-nums" aria-hidden>
+              {fmt(elapsed)}
+            </p>
+            <p className="meta mt-1">of 20:00 max</p>
+          </div>
         </div>
+        <p className="sr-only" aria-live="off">{`Elapsed ${fmt(elapsed)} of 20 minutes`}</p>
+
+        <div className="mt-8 h-2.5 w-full max-w-xs overflow-hidden rounded-full bg-paper-2 ring-1 ring-line" aria-hidden>
+          <div className="h-full rounded-full bg-accent transition-[width] duration-75" style={{ width: `${Math.round(level * 100)}%` }} />
+        </div>
+        <p className="meta mt-2">{isRec ? "level — live from your mic" : "\u00a0"}</p>
+
         {phase === "uploading" ? (
-          <p className="mt-4 text-sm opacity-80">
-            Uploading {uploadProgress.sent}/{uploadProgress.total} chunks…
+          <p className="meta mt-3">
+            uploading {uploadProgress.sent}/{uploadProgress.total} chunks…
           </p>
         ) : null}
         {error ? (
-          <p role="alert" className="mt-6 rounded-xl bg-danger-bg p-3 text-danger">
+          <p role="alert" className="mt-5 rounded-[14px] bg-danger-bg p-3 text-danger">
             {error}
           </p>
         ) : null}
       </div>
 
-      <div className="px-5 pb-10">
+      <div className="pb-2">
         {isRec ? (
-          <button type="button" onClick={stop} className="tap w-full rounded-2xl bg-white py-5 text-2xl font-bold text-rec shadow-lg active:scale-[0.98]">
-            STOP
+          <button
+            type="button"
+            onClick={stop}
+            className="tap w-full rounded-[16px] border border-danger-edge bg-white py-5 font-display text-2xl font-extrabold tracking-wide text-danger shadow-[0_5px_0_var(--color-danger-edge),0_8px_14px_rgba(27,36,48,0.12)] transition-all duration-75 active:translate-y-[5px] active:shadow-none"
+          >
+            ■ STOP
           </button>
         ) : phase === "idle" || phase === "error" ? (
           <div className="flex flex-col gap-2">
@@ -277,7 +305,7 @@ export function Recorder({ sessionId, initialStatus, autostart }: { sessionId: s
                 Start recording
               </button>
             ) : null}
-            <button type="button" onClick={() => router.push("/")} className="btn-secondary w-full">
+            <button type="button" onClick={() => router.push("/")} className="btn-quiet w-full">
               Back
             </button>
           </div>

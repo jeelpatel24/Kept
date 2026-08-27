@@ -31,7 +31,7 @@ export function LoginForm({ next }: { next: string }) {
 
   return (
     <form onSubmit={submit} className="mt-8 flex flex-col gap-3">
-      <label htmlFor="email" className="font-medium">
+      <label htmlFor="email" className="label">
         Email
       </label>
       <input
@@ -42,7 +42,7 @@ export function LoginForm({ next }: { next: string }) {
         required
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="tap rounded-xl border-2 border-line bg-white px-4 text-lg"
+        className="tap rounded-[14px] border border-line bg-white px-4 text-lg shadow-[inset_0_2px_4px_rgba(27,36,48,0.06)]"
         placeholder="you@company.com"
       />
       <button type="submit" className="btn-primary text-lg" disabled={state === "sending"}>
